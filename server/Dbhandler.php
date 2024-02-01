@@ -8,12 +8,12 @@ class Dbhandler{
     public function __construct($pdo){
         $this->db = $pdo;
     }
-
+		
     function getAllTask(){
-        
-        return $this->db->query("SELECT * FROM tohabit");
+        return $this->db->query("SELECT * FROM task")->fetchAll(PDO::FETCH_OBJ);
     }
 }
 
 
 ?>
+
