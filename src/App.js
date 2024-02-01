@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const App = () => {
   const [posts, setPosts] = useState([]);
-  const url = 'http://localhost/educom/tohabit/server/mobile/list/5/'
+  const url = 'http://localhost/educom/tohabit/server/mobile/list/'
   
    useEffect(() => {
       fetch(url)
@@ -18,7 +18,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>tohabit</h1>
+      <h1>{posts[1]}</h1>
       
     </div>
   );
