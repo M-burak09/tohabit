@@ -27,8 +27,10 @@ function Login() {
         const data = await res.json();
         if(data.success === true){
           console.log(data.user.id);
-          sessionStorage.setItem("current_user", data.user.id);
+          
+          await sessionStorage.setItem("current_user", data.user.id);
           console.log(sessionStorage.getItem("current_user"));
+          // Need to fix bug where it sometimes goes to home but sometimes stays at login
           navigate("/");
           setUsername("");
           setPassword("");
@@ -47,27 +49,29 @@ function Login() {
   };
 
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
+      <form className="bg-secondary w-full  max-w-3xl h-screen m-auto lg:rounded py-8 lg:w-1/2 lg:h-fit lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2" onSubmit={handleSubmit}>
+        <h1 className="text-center text-primary">Login</h1>
+        
         <input
+          className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
           type="text"
           value={username}
           placeholder="Name"
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
+          className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
           type="text"
           value={password}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Button onClick={handleSubmit}>Create</Button>
+        <Button onClick={handleSubmit} styles="block w-2/3 m-auto rounded bg-tertiary px-3 py-2 my-2 text-sm font-medium">Login</Button>
 
         <p className="message">{message ? <p>{message}</p> : null}</p>
         <p>{sessionStorage.getItem("current_user")}</p>
       </form>
-    </div>
   );
 }
 
