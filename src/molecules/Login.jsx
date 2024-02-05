@@ -1,5 +1,6 @@
 
 import React from "react";
+import Button from "../atoms/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -61,9 +62,9 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button onClick={handleSubmit}>Create</button>
+        <Button onClick={handleSubmit}>Create</Button>
 
-        <div className="message">{message ? <p>{message}</p> : null}</div>
+        <p className="message">{message ? <p>{message}</p> : null}</p>
         <p>{sessionStorage.getItem("current_user")}</p>
       </form>
     </div>
