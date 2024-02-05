@@ -65,23 +65,24 @@ function App() {
         }),
       });
       //let resJson = await res.json();
-      console.log(await res.text());
+      //console.log(await res.text());
       if (res.status === 200) {
-        
-        //console.log(username, password, res.json());
         const data = await res.json();
-        console.log('Login successful:', data);
-        setUsername("");
-        setPassword("");
-        setMessage("User created successfully");
+        if(data.success === true){
+          console.log(data.success);
+          setUsername("");
+          setPassword("");
+          setMessage("User created successfully");
+        } else {
+          console.error('Login failed:', data);
+          setMessage("Username or password doesn't exist, please try again!");
+        }
       } else {
-      
         const errorData = await res.json();
         console.error('Login failed:', errorData);
         setMessage("Some error occured");
       }
     } catch (err) {
-      console.log('err');
       console.log(err);
     }
   };

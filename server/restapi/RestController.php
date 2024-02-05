@@ -38,7 +38,7 @@ switch($view){
             // Access username and password from the decoded JSON data
             $username = isset($data['username']) ? $data['username'] : null;
             $password = isset($data['password']) ? $data['password'] : null;
-			echo "ewer".$username;
+			//echo $username;
 			// Validate and process login
 			if (!empty($username) && !empty($password)) {
 				$mobileRestHandler = new TaskRestHandler(Dbconnect::getInstance());
