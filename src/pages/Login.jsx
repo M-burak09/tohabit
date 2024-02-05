@@ -1,13 +1,13 @@
 
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   let handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,15 +22,15 @@ function Login() {
           password
         }),
       });
-      //let resJson = await res.json();
-      //console.log(await res.text());
       if (res.status === 200) {
         const data = await res.json();
         if(data.success === true){
-          console.log(data.success);
+          console.log(data.user.id);
+          sessionStorage.setItem("current_user", data.user.id);
+          console.log(sessionStorage.getItem("current_user"));
+          navigate("/");
           setUsername("");
           setPassword("");
-          setMessage("User created successfully");
         } else {
           console.error('Login failed:', data);
           setMessage("Username or password doesn't exist, please try again!");
@@ -64,6 +64,7 @@ function Login() {
         <button onClick={handleSubmit}>Create</button>
 
         <div className="message">{message ? <p>{message}</p> : null}</div>
+        <p>{sessionStorage.getItem("current_user")}</p>
       </form>
     </div>
   );
