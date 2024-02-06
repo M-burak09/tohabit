@@ -53,7 +53,7 @@ function Login() {
   return (
       <form className="bg-secondary w-full  max-w-3xl h-screen m-auto lg:rounded py-8 lg:w-1/2 lg:h-fit lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2" onSubmit={handleSubmit}>
         <h1 className="text-center text-primary">Login</h1>
-        <p className="text-center text-primary italic">Test account: Username & password = test</p>
+        <p className="text-center text-primary italic">Test account: Username & password = guest</p>
         <input
           className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
           type="text"

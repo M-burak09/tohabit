@@ -15,7 +15,7 @@ INSERT INTO `Todo` (`id`, `task_id`, `image`, `date`) VALUES
 INSERT INTO `Habit` (`id`, `task_id`, `image`, `start_date`, `day_of_week`) VALUES
 (1, 1, 'habit.png', '2024-1-8', 5);
 
-INSERT INTO `Habit_instance` (`id`, `habit_id`, `occurence_date`) VALUES
+INSERT INTO `Habit_instance` (`id`, `habit_id`, `date`) VALUES
 (1, 1, '2024-1-8'),
 (2, 1, '2024-1-15'),
 (3, 1, '2024-1-22');

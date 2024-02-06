@@ -16,7 +16,14 @@ class Dbhandler{
     }
 
     public function getUserTodo($id){
-        $sql = "SELECT * FROM task INNER JOIN todo ON task.id = todo.task_id WHERE task.user_id = ?";
+        $sql = "SELECT * FROM task JOIN todo ON task.id = todo.task_id WHERE task.user_id = ?";
+        $result = $this->db->prepare($sql);
+        $result->execute([$id]);
+        return $result->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getUserHabit($id){
+        $sql = "SELECT * FROM task JOIN habit ON task.id = habit.task_id JOIN habit_instance ON habit.id = habit_instance.habit_id WHERE task.user_id = ?";
         $result = $this->db->prepare($sql);
         $result->execute([$id]);
         return $result->fetchAll(PDO::FETCH_OBJ);

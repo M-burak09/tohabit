@@ -38,6 +38,10 @@
         public function getUserTodos($id){
             $this->handleAndEncode($this->db->getUserTodo($id));
         }
+
+        public function getUserHabits($id){
+            $this->handleAndEncode($this->db->getUserHabit($id));
+        }
         
         public function getUserLogin($username, $password){
             $user = $this->db->getUserLogin($username, $password);

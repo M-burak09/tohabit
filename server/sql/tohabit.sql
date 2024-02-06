@@ -32,5 +32,5 @@ CREATE TABLE Habit(
 CREATE TABLE Habit_instance(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     habit_id int NOT NULL,
-    occurence_date DATE
+    date DATE
 );

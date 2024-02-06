@@ -6,3 +6,4 @@ RewriteEngine on
 RewriteRule ^task/all/?$ RestController.php?view=tasks [nc,qsa]
 RewriteRule ^login/?$ RestController.php?view=login [nc,qsa]
 RewriteRule ^user/todos/([0-9]+)/?$ RestController.php?view=usertodos&id=$1 [nc,qsa]
+RewriteRule ^user/habits/([0-9]+)/?$ RestController.php?view=userhabits&id=$1 [nc,qsa]
