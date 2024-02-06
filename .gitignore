@@ -12,7 +12,8 @@
 /build
 
 # config
-
+/server/restapi/config.php
+/src/config.js
 
 # misc
 .DS_Store
