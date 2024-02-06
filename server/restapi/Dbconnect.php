@@ -3,10 +3,10 @@
     include_once __DIR__ . "/config.php";
 
     class Dbconnect{
-        // Add db connection, dont forget pdo and singeleton
-        static $db;
+        // Creates database connection with pdo and singleton for efficiency
+        private static $db;
         private $dbc;
-        public function __construct(){
+        private function __construct(){
             try{
                 $this->dbc = new PDO("mysql:host=".HOST.";dbname=".DATABASE."", USERNAME, PASSWORD);
             } catch (PDOException $e) {

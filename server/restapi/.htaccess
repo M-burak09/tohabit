@@ -3,8 +3,6 @@ Options +FollowSymlinks
 RewriteEngine on
 
 # map neat URL to internal URL
-RewriteRule ^mobile/list/?$   RestController.php?view=all [nc,qsa]
-RewriteRule ^mobile/list/([0-9]+)/?$   RestController.php?view=single&id=$1 [nc,qsa]
 RewriteRule ^task/all/?$ RestController.php?view=tasks [nc,qsa]
 RewriteRule ^login/?$ RestController.php?view=login [nc,qsa]
 RewriteRule ^user/todos/([0-9]+)/?$ RestController.php?view=usertodos&id=$1 [nc,qsa]

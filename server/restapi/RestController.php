@@ -1,8 +1,8 @@
 <?php
-require_once("MobileRestHandler.php");
 require_once("TaskRestHandler.php");
 require_once("Dbconnect.php");
 
+// Needed CORS headers so React can communicate with different rest url
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Max-Age: 86400');
@@ -29,22 +29,17 @@ switch($view){
             $json_data = file_get_contents("php://input");
             // Decode the JSON data
             $data = json_decode($json_data, true);
-		
-			
             // Access username and password from the decoded JSON data
             $username = isset($data['username']) ? $data['username'] : null;
             $password = isset($data['password']) ? $data['password'] : null;
-			//echo $username;
 			// Validate and process login
 			if (!empty($username) && !empty($password)) {
 				$restRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 				$restRestHandler->getUserLogin($username, $password);
 			} else {
-				// Handle invalid or missing data
 				echo json_encode(array('error' => 'Invalid or missing username or password.'));
 			}
 		} else {
-			// Handle invalid request method
 			echo json_encode(array('error' => 'Invalid request method.'));
 		}
 		break;
@@ -52,23 +47,6 @@ switch($view){
 	case "usertodos":
 		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 		$taskRestHandler->getUserTodos($_GET["id"]);
-		break;
-
-	case "loginn":
-		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
-		$taskRestHandler->getUserLogin($username, $password);
-		break;
-
-	case "all":
-		// to handle REST Url /mobile/list/
-		$mobileRestHandler = new MobileRestHandler();
-		$mobileRestHandler->getAllMobiles();
-		break;
-		
-	case "single":
-		// to handle REST Url /mobile/show/<id>/
-		$mobileRestHandler = new MobileRestHandler();
-		$mobileRestHandler->getMobile($_GET["id"]);
 		break;
 
 	case "" :
