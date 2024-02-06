@@ -25,10 +25,6 @@ switch($view){
 	case "login":
 		// Ensure that the request method is POST
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-			
-
-            
 			// Get raw JSON data from the request body
             $json_data = file_get_contents("php://input");
             // Decode the JSON data
@@ -41,8 +37,8 @@ switch($view){
 			//echo $username;
 			// Validate and process login
 			if (!empty($username) && !empty($password)) {
-				$mobileRestHandler = new TaskRestHandler(Dbconnect::getInstance());
-				$mobileRestHandler->getUserLogin($username, $password);
+				$restRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$restRestHandler->getUserLogin($username, $password);
 			} else {
 				// Handle invalid or missing data
 				echo json_encode(array('error' => 'Invalid or missing username or password.'));
@@ -52,6 +48,12 @@ switch($view){
 			echo json_encode(array('error' => 'Invalid request method.'));
 		}
 		break;
+	
+	case "usertodos":
+		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler->getUserTodos($_GET["id"]);
+		break;
+
 	case "loginn":
 		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 		$taskRestHandler->getUserLogin($username, $password);

@@ -19,11 +19,8 @@ class MobileRestHandler extends SimpleRest {
 		$this->setHttpHeaders('application/json', $statusCode);
 		$response = $this->encodeJson($rawData);
 		echo $response;
-		
-		
-		
 	}
-	
+
 	public function encodeJson($responseData) {
 		$jsonResponse = json_encode($responseData);
 		return $jsonResponse;		

@@ -35,6 +35,11 @@
             $this->handleAndEncode($this->db->getAllTask());
         }
 
+        function getUserTodos($id){
+            $this->handleAndEncode($this->db->getUserTodo($id));
+        }
+        
+
         function getUserLogin($username, $password){
             /*
             $this->handleAndEncode($this->db->getUserLogin($username, $password));

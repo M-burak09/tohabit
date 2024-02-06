@@ -15,6 +15,14 @@ class Dbhandler{
         return $result;
     }
 
+    function getUserTodo($id){
+        //$sql = "SELECT * FROM task where user_id = ?";
+        $sql = "SELECT * FROM task INNER JOIN todo ON task.id = todo.task_id WHERE task.user_id = ?";
+        $result = $this->db->prepare($sql);
+        $result->execute([$id]);
+        return $result->fetchAll(PDO::FETCH_OBJ);
+    }
+
     function getUserLogin($username, $password){/*
         $sql = "SELECT * FROM person where username = ? AND password = ?";
         $result = $this->db->prepare($sql);
