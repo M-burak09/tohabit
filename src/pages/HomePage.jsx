@@ -1,6 +1,7 @@
 import React from "react";
 import Logout from "../molecules/Logout";
 import {useState, useEffect} from "react";
+import {url} from "../config.js";
 
 function HomePage(){
     const [tasks, setTasks] = useState([]);
@@ -11,7 +12,7 @@ function HomePage(){
 
     let handleUserTasks = async () => {
         try {
-            let res = await fetch("http://localhost/educom/tohabit/server/restapi/user/todos/" + sessionStorage.getItem("current_user"));
+            let res = await fetch(url.rest + "user/todos/" + sessionStorage.getItem("current_user"));
             if (res.status === 200) {
               const data = await res.json();
               setTasks(data);

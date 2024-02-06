@@ -3,17 +3,19 @@ import React from "react";
 import Button from "../atoms/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { url } from "../config.js";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  
   const navigate = useNavigate();
 
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("http://localhost/educom/tohabit/server/restapi/login", {
+      let res = await fetch(url.rest + "login", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
