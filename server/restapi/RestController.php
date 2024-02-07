@@ -53,6 +53,16 @@ switch($view){
 		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 		$taskRestHandler->getUserHabits($_GET["id"]);
 		break;
+	
+	case "usertodosdate":
+		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler->getUserTodosDate($_GET["id"], $_GET["date"]);
+		break;
+
+	case "userhabitsdate":
+		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler->getUserHabitsDate($_GET["id"], $_GET["date"]);
+		break;
 
 	case "" :
 		//404 - not found;

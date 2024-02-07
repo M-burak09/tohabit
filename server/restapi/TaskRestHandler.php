@@ -42,6 +42,14 @@
         public function getUserHabits($id){
             $this->handleAndEncode($this->db->getUserHabit($id));
         }
+
+        public function getUserTodosDate($id, $date){
+            $this->handleAndEncode($this->db->getUserTodosDate($id, $date));
+        }
+
+        public function getUserHabitsDate($id, $date){
+            $this->handleAndEncode($this->db->getUserHabitsDate($id, $date));
+        }
         
         public function getUserLogin($username, $password){
             $user = $this->db->getUserLogin($username, $password);

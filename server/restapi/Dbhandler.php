@@ -29,6 +29,20 @@ class Dbhandler{
         return $result->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getUserTodosDate($id, $date){
+        $sql = "SELECT * FROM task JOIN todo ON task.id = todo.task_id WHERE task.user_id = ? AND todo.date = ?";
+        $result = $this->db->prepare($sql);
+        $result->execute([$id, $date]);
+        return $result->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getUserHabitsDate($id, $date){
+        $sql = "SELECT * FROM task JOIN habit ON task.id = habit.task_id JOIN habit_instance ON habit.id = habit_instance.habit_id WHERE task.user_id = ? AND habit_instance.date = ?";
+        $result = $this->db->prepare($sql);
+        $result->execute([$id, $date]);
+        return $result->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function getUserLogin($username, $password){
         $sql = "SELECT * FROM person WHERE username = ? AND password = ?";
         try {
