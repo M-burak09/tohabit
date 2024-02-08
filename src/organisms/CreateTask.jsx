@@ -1,0 +1,123 @@
+import React from "react";
+import Button from "../atoms/Button";
+import {useState} from "react";
+import {url} from "../config.js";
+
+const CreateTask = () => {
+    const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [todoModalOpen, setTodoModalOpen] = useState(false);
+    const [habitModalOpen, setHabitModalOpen] = useState(false);
+    const [todoName, setTodoName] = useState("");
+    const [todoDescription, setTodoDescription] = useState("");
+    const [todoDate, setTodoDate] = useState("");
+    
+    const showCreateModal = () => {
+        setCreateModalOpen(true);
+    };
+
+    const hideCreateModal = () => {
+        setCreateModalOpen(false);
+    };
+
+    const showTodoModal = () => {
+        setTodoModalOpen(true);
+        setCreateModalOpen(false);
+    };
+
+    const hideTodoModal = () => {
+        setTodoModalOpen(false);
+    };
+
+    const showHabitModal = () => {
+        setHabitModalOpen(true);
+        setCreateModalOpen(false);
+    };
+
+    const hideHabitModal = () => {
+        setHabitModalOpen(false);
+    };
+
+    let handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          let res = await fetch(url.rest + "create/todo/" + sessionStorage.getItem("current_user"), {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: todoName,
+              description: todoDescription,
+              date: todoDate
+            }),
+          });
+          if (res.status === 200) {
+              setTodoName("");
+              setTodoDescription("");
+              setTodoDate("");
+            
+          } 
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+    return (
+        <div>
+            <Button onClick={showCreateModal}>Create Task</Button>
+
+            {createModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <p>Create modal</p>
+                        <Button onClick={showTodoModal}>Create todo (single task) </Button>
+                        <Button onClick={showHabitModal}>Create habit (reoccuring task)</Button>
+                        <Button onClick={hideCreateModal}>Close</Button>
+                    </div>
+                </div>
+            )}
+
+            {todoModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <p> Todo modal</p>
+                        <Button onClick={hideTodoModal}>Close</Button>
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="text"
+                            value={todoName}
+                            placeholder="Task name"
+                            onChange={(e) => setTodoName(e.target.value)}
+                        />
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="text"
+                            value={todoDescription}
+                            placeholder="Task name"
+                            onChange={(e) => setTodoDescription(e.target.value)}
+                        />
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="date"
+                            value={todoDate}
+                            placeholder="Task name"
+                            onChange={(e) => setTodoDate(e.target.value)}
+                        />
+                        <Button onClick={handleSubmit} styles="block w-2/3 m-auto rounded bg-tertiary px-3 py-2 my-2 text-sm font-medium">Create task</Button>
+                    </div>
+                </div>
+            )}
+
+            {habitModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <p>Habit modal</p>
+                        <Button onClick={hideHabitModal}>Close</Button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default CreateTask;

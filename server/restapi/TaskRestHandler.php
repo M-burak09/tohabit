@@ -50,6 +50,10 @@
         public function getUserHabitsDate($id, $date){
             $this->handleAndEncode($this->db->getUserHabitsDate($id, $date));
         }
+
+        public function createUserTodo($id, $name, $description, $date){
+            $this->handleAndEncode($this->db->createUserTodo($id, $name, $description, $date));
+        }
         
         public function getUserLogin($username, $password){
             $user = $this->db->getUserLogin($username, $password);

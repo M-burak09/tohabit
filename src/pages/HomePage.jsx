@@ -1,5 +1,6 @@
 import React from "react";
 import Logout from "../molecules/Logout";
+import CreateTask from "../organisms/CreateTask";
 import {useState, useEffect} from "react";
 import {url} from "../config.js";
 import {
@@ -160,7 +161,7 @@ const HomePage = () =>{
         <div>
             <h1>Homepage</h1>
             <Logout/>
-            
+            <CreateTask/>
             <div className="calendar">
                 {showHeader()}
                 {showWeekdayTitle()}

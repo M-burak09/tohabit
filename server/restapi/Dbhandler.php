@@ -43,6 +43,11 @@ class Dbhandler{
         return $result->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function createUserTodo($id, $name, $description, $date){
+        $todoId = uniqueid();
+        $sql = "BEGIN TRANSACTION; INSERT INTO task (id, user_id, title, description, completion) VALUES ($todoId, $id, $name, $description, 0); INSERT INTO todo (task_id, image, date) VALUES ($todoId, todo.png, $date); COMMIT TRANSACTION;";
+    }
+
     public function getUserLogin($username, $password){
         $sql = "SELECT * FROM person WHERE username = ? AND password = ?";
         try {

@@ -63,6 +63,25 @@ switch($view){
 		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 		$taskRestHandler->getUserHabitsDate($_GET["id"], $_GET["date"]);
 		break;
+	
+	case "createtodo":
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $json_data = file_get_contents("php://input");
+            $data = json_decode($json_data, true);
+            $name = isset($data['name']) ? $data['name'] : null;
+            $description = isset($data['description']) ? $data['description'] : null;
+			$date = isset($data['date']) ? $data['date'] : null;
+			if (!empty($name) && !empty($date)) {
+				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler->createUserTodo($_GET["id"], $name, $description, $date);
+			} else {
+				echo json_encode(array('error' => 'Invalid task creation.'));
+			}
+		} else {
+			echo json_encode(array('error' => 'Invalid request method.'));
+		}
+		
+		break;
 
 	case "" :
 		//404 - not found;
