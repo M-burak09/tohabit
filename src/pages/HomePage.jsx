@@ -64,13 +64,17 @@ const HomePage = () =>{
 
     // Shows row with monday to sunday
     const showWeekdayTitle = () => {
-      const dateFormat = "EEE";
+      const weekDayFormat = "EEE";
+      const dateFormat = "dd-MM";
       const days = [];
       let startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
+      const formattedDate = format(startDate, dateFormat);
+
       for (let i = 0; i < 7; i++) {
         days.push(
           <div className="col col-center" key={i}>
-            {format(addDays(startDate, i), dateFormat)}
+            <span> {format(addDays(startDate, i), weekDayFormat)} </span>
+            <span className="number">{formattedDate}</span>
           </div>
         );
       }
@@ -84,32 +88,34 @@ const HomePage = () =>{
         const dateFormat = "yyyy-MM-dd";
         const rows = [];
         let days = [];
+      
         let day = startDate;
-        let formattedDate = "";
-
         while (day <= endDate) {
-            for (let i = 0; i < 7; i++) {
-                formattedDate = format(day, dateFormat);
-                tasksData.map((data) => {
-                    data.map((task) => {
-                        if(task.date == formattedDate){
-                            days.push(
-                                <div className="col cell" key={task.id}>
-                                <input type="checkbox" />
-                                <p>{task.title}</p>
-                                <img src={task.image} alt={task.image} />
-                            </div>
-                                );
-                        }
-                    })
-                })
-                day = addDays(day, 1);
-            }
-            rows.push(<div className="row" key={day}>{days}</div>);
-            days = [];
+          const formattedDate = format(day, dateFormat);
+          const dayTasks = tasksData
+            .flat()
+            .filter((task) => task.date === formattedDate)
+            .map((task) => (
+              <div className="task" key={task.id}>
+                <input type="checkbox" />
+                <p>{task.title}</p>
+                <img src={task.image} alt={task.image} />
+              </div>
+            ));
+      
+          days.push(
+            <div className="col " key={formattedDate}>
+              {dayTasks}
+            </div>
+          );
+      
+          day = addDays(day, 1);
         }
+      
+        rows.push(<div className="row" key="dates">{days}</div>);
+      
         return <div className="body">{rows}</div>;
-    };
+      };
 
     // Function that makes sure that the fetches are handled well with promises and saved in the tasksdata state
     const fetchTasksData = async () => {
