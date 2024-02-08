@@ -21,15 +21,17 @@ const HomePage = () =>{
     const [currentWeek, setCurrentWeek] = useState(getWeek(currentMonth));
     const [tasksData, setTasksData] = useState([]);
 
+    // Updates taskdata everytime the week changes
     useEffect(() => {
         fetchTasksData();
-      }, []);
+      }, [currentMonth]);
     
     // Go to the previous or next weeks
     const changeWeekHandle = (btnType) => {
       if (btnType === "prev") {
         setCurrentMonth(subWeeks(currentMonth, 1));
         setCurrentWeek(getWeek(subWeeks(currentMonth, 1)));
+        
       }
       if (btnType === "next") {
         setCurrentMonth(addWeeks(currentMonth, 1));
@@ -92,7 +94,7 @@ const HomePage = () =>{
                     data.map((task) => {
                         if(task.date == formattedDate){
                             days.push(
-                                <div className="flex border" key={task.id}>
+                                <div className="col cell" key={task.id}>
                                 <input type="checkbox" />
                                 <p>{task.title}</p>
                                 <img src={task.image} alt={task.image} />
@@ -109,7 +111,7 @@ const HomePage = () =>{
         return <div className="body">{rows}</div>;
     };
 
-    // Chatgpt code that i needed to add to fix object problem, but lost track of it after coding. Need to take a look again do understand this function well
+    // Function that makes sure that the fetches are handled well with promises and saved in the tasksdata state
     const fetchTasksData = async () => {
         const startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
         const endDate = lastDayOfWeek(currentMonth, { weekStartsOn: 1 });
