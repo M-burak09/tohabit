@@ -7,7 +7,7 @@ header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Max-Age: 86400');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header('Access-Control-Allow-Headers: token, Content-Type');
+header('Access-Control-Allow-Headers: token, Content-Type, Authorization, X-Requested-With');
 
 $view = "";
 if(isset($_GET["view"])){
@@ -65,6 +65,7 @@ switch($view){
 		break;
 	
 	case "createtodo":
+		
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents("php://input");
             $data = json_decode($json_data, true);
@@ -77,9 +78,42 @@ switch($view){
 			} else {
 				echo json_encode(array('error' => 'Invalid task creation.'));
 			}
-		} else {
+		} 
+		/*
+		else {
+			$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+			$taskRestHandler->createUserTodo(1, 'statictest', 'statictest', '2024-02-09');
 			echo json_encode(array('error' => 'Invalid request method.'));
 		}
+		*/
+		
+		break;
+
+	case "createhabit":
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			error_log("Received a POST request for habit creation.");
+			$json_data = file_get_contents("php://input");
+			$data = json_decode($json_data, true);
+			$name = isset($data['name']) ? $data['name'] : null;
+			$description = isset($data['description']) ? $data['description'] : null;
+			$dayOfWeek = isset($data['dayOfWeek']) ? $data['dayOfWeek'] : null;
+			$startDate = isset($data['startDate']) ? $data['startDate'] : null;
+			$endDate = isset($data['endDate']) ? $data['endDate'] : null;
+			if (!empty($name) && !empty($dayOfWeek) && !empty($startDate)) {
+				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler->createUserHabit($_GET["id"], $name, $description, $dayOfWeek, $startDate, $endDate);
+			} else {
+				echo json_encode(array('error' => 'Invalid task creation.'));
+			}
+		} 
+		/*
+		else {
+			$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+			$taskRestHandler->createUserHabit(1, 'statictest', 'statictest', 6,'2024-02-09', '2024-02-23');
+			echo json_encode(array('error' => 'Invalid request method.'));
+		}
+		*/
 		
 		break;
 

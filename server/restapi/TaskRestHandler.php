@@ -54,6 +54,10 @@
         public function createUserTodo($id, $name, $description, $date){
             $this->handleAndEncode($this->db->createUserTodo($id, $name, $description, $date));
         }
+
+        public function createUserHabit($id, $name, $description, $dayOfWeek, $startDate, $endDate){
+            $this->handleAndEncode($this->db->createUserHabit($id, $name, $description, $dayOfWeek, $startDate, $endDate));
+        }
         
         public function getUserLogin($username, $password){
             $user = $this->db->getUserLogin($username, $password);

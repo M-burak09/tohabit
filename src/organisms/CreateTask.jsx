@@ -3,13 +3,20 @@ import Button from "../atoms/Button";
 import {useState} from "react";
 import {url} from "../config.js";
 
-const CreateTask = () => {
+const CreateTask = ({refresh}) => {
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [todoModalOpen, setTodoModalOpen] = useState(false);
     const [habitModalOpen, setHabitModalOpen] = useState(false);
     const [todoName, setTodoName] = useState("");
     const [todoDescription, setTodoDescription] = useState("");
     const [todoDate, setTodoDate] = useState("");
+    const [habitName, setHabitName] = useState("");
+    const [habitDescription, setHabitDescription] = useState("");
+    const [habitDay, setHabitDay] = useState("");
+    const [habitDate, setHabitDate] = useState("");
+    const [habitEndDate, setHabitEndDate] = useState("");
+    
+
     
     const showCreateModal = () => {
         setCreateModalOpen(true);
@@ -37,10 +44,10 @@ const CreateTask = () => {
         setHabitModalOpen(false);
     };
 
-    let handleSubmit = async (e) => {
-        e.preventDefault();
+    let handleTodoSubmit = async () => {
+        
         try {
-          let res = await fetch(url.rest + "create/todo/" + sessionStorage.getItem("current_user"), {
+          await fetch(url.rest + "create/todo/" + sessionStorage.getItem("current_user"), {
             method: "POST",
             headers: {
               'Content-Type': 'application/json',
@@ -51,12 +58,40 @@ const CreateTask = () => {
               date: todoDate
             }),
           });
-          if (res.status === 200) {
-              setTodoName("");
-              setTodoDescription("");
-              setTodoDate("");
-            
-          } 
+            setTodoName("");
+            setTodoDescription("");
+            setTodoDate("");
+            refresh();
+            hideTodoModal();
+          
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      let handleHabitSubmit = async () => {
+        
+        try {
+          await fetch(url.rest + "create/habit/" + sessionStorage.getItem("current_user"), {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: habitName,
+              description: habitDescription,
+              dayOfWeek: habitDay,
+              startDate: habitDate,
+              endDate: habitEndDate
+            }),
+          });
+            setHabitName("");
+            setHabitDescription("");
+            setHabitDate("");
+            setHabitEndDate("");
+            setHabitDay("");
+            refresh();
+            hideHabitModal();   
         } catch (err) {
           console.log(err);
         }
@@ -103,7 +138,7 @@ const CreateTask = () => {
                             placeholder="Task name"
                             onChange={(e) => setTodoDate(e.target.value)}
                         />
-                        <Button onClick={handleSubmit} styles="block w-2/3 m-auto rounded bg-tertiary px-3 py-2 my-2 text-sm font-medium">Create task</Button>
+                        <Button onClick={handleTodoSubmit} styles="block w-2/3 m-auto rounded bg-tertiary px-3 py-2 my-2 text-sm font-medium">Create task</Button>
                     </div>
                 </div>
             )}
@@ -113,6 +148,42 @@ const CreateTask = () => {
                     <div className="modal">
                         <p>Habit modal</p>
                         <Button onClick={hideHabitModal}>Close</Button>
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="text"
+                            value={habitName}
+                            placeholder="Task name"
+                            onChange={(e) => setHabitName(e.target.value)}
+                        />
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="text"
+                            value={habitDescription}
+                            placeholder="Task name"
+                            onChange={(e) => setHabitDescription(e.target.value)}
+                        />
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="number"
+                            value={habitDay}
+                            placeholder="Task name"
+                            onChange={(e) => setHabitDay(e.target.value)}
+                        />
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="date"
+                            value={habitDate}
+                            placeholder="Task name"
+                            onChange={(e) => setHabitDate(e.target.value)}
+                        />
+                        <input
+                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
+                            type="date"
+                            value={habitEndDate}
+                            placeholder="Task name"
+                            onChange={(e) => setHabitEndDate(e.target.value)}
+                        />
+                        <Button onClick={handleHabitSubmit} styles="block w-2/3 m-auto rounded bg-tertiary px-3 py-2 my-2 text-sm font-medium">Create task</Button>
                     </div>
                 </div>
             )}

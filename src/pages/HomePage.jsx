@@ -161,7 +161,7 @@ const HomePage = () =>{
         <div>
             <h1>Homepage</h1>
             <Logout/>
-            <CreateTask/>
+            <CreateTask refresh={fetchTasksData}/>
             <div className="calendar">
                 {showHeader()}
                 {showWeekdayTitle()}
