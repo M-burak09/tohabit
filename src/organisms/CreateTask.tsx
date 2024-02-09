@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../atoms/Button";
+import Button from "../atoms/Button.tsx";
 import {useState} from "react";
 import {url} from "../config.js";
 
@@ -70,7 +70,7 @@ const CreateTask = ({refresh}) => {
       };
 
       let handleHabitSubmit = async () => {
-        
+      
         try {
           await fetch(url.rest + "create/habit/" + sessionStorage.getItem("current_user"), {
             method: "POST",
@@ -84,7 +84,7 @@ const CreateTask = ({refresh}) => {
               startDate: habitDate,
               endDate: habitEndDate
             }),
-          });
+          })
             setHabitName("");
             setHabitDescription("");
             setHabitDate("");
@@ -99,15 +99,15 @@ const CreateTask = ({refresh}) => {
 
     return (
         <div>
-            <Button onClick={showCreateModal}>Create Task</Button>
+            <Button onClick={showCreateModal} styles="">Create Task</Button>
 
             {createModalOpen && (
                 <div className="modal-overlay">
                     <div className="modal">
                         <p>Create modal</p>
-                        <Button onClick={showTodoModal}>Create todo (single task) </Button>
-                        <Button onClick={showHabitModal}>Create habit (reoccuring task)</Button>
-                        <Button onClick={hideCreateModal}>Close</Button>
+                        <Button onClick={showTodoModal} styles="">Create todo (single task) </Button>
+                        <Button onClick={showHabitModal} styles="">Create habit (reoccuring task)</Button>
+                        <Button onClick={hideCreateModal} styles="">Close</Button>
                     </div>
                 </div>
             )}
@@ -116,7 +116,7 @@ const CreateTask = ({refresh}) => {
                 <div className="modal-overlay">
                     <div className="modal">
                         <p> Todo modal</p>
-                        <Button onClick={hideTodoModal}>Close</Button>
+                        <Button styles="" onClick={hideTodoModal}>Close</Button>
                         <input
                             className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
                             type="text"
@@ -147,7 +147,7 @@ const CreateTask = ({refresh}) => {
                 <div className="modal-overlay">
                     <div className="modal">
                         <p>Habit modal</p>
-                        <Button onClick={hideHabitModal}>Close</Button>
+                        <Button onClick={hideHabitModal} styles="">Close</Button>
                         <input
                             className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
                             type="text"

@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Home from "./pages/HomePage";
-import Login from "./pages/LoginPage";
+import Home from "./pages/HomePage.tsx";
+import Login from "./pages/LoginPage.tsx";
 
 function App() {
 

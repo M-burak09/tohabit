@@ -1,6 +1,6 @@
 
 import React from "react";
-import Button from "../atoms/Button";
+import Button from "../atoms/Button.tsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { url } from "../config.js";

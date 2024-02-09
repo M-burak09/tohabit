@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../atoms/Button";
+import Button from "../atoms/Button.tsx";
 import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
@@ -10,7 +10,7 @@ const Logout = () => {
         navigate("/login");
     }
     return (
-        <Button onClick={handleLogout}>Logout</Button>
+        <Button onClick={handleLogout} styles="">Logout</Button>
     )
 }
 

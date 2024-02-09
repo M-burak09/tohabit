@@ -1,6 +1,6 @@
 import React from "react";
-import Logout from "../molecules/Logout";
-import CreateTask from "../organisms/CreateTask";
+import Logout from "../molecules/Logout.tsx";
+import CreateTask from "../organisms/CreateTask.tsx";
 import {useState, useEffect} from "react";
 import {url} from "../config.js";
 import {
@@ -20,7 +20,7 @@ const HomePage = () =>{
     
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [currentWeek, setCurrentWeek] = useState(getWeek(currentMonth));
-    const [tasksData, setTasksData] = useState([]);
+    const [tasksData, setTasksData] = useState<Record<string, any>>([]);
 
     // Updates taskdata everytime the week changes
     useEffect(() => {
@@ -67,17 +67,19 @@ const HomePage = () =>{
     const showWeekdayTitle = () => {
       const weekDayFormat = "EEE";
       const dateFormat = "dd-MM";
-      const days = [];
+      const days: JSX.Element[] = [];
       let startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
-      const formattedDate = format(startDate, dateFormat);
+      let day = startDate;
 
       for (let i = 0; i < 7; i++) {
+        const formattedDate = format(day, dateFormat);
         days.push(
           <div className="col col-center" key={i}>
             <span> {format(addDays(startDate, i), weekDayFormat)} </span>
             <span className="number">{formattedDate}</span>
           </div>
         );
+        day = addDays(day, 1);
       }
       return <div className="days row">{days}</div>;
     };
@@ -87,8 +89,8 @@ const HomePage = () =>{
         const startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
         const endDate = lastDayOfWeek(currentMonth, { weekStartsOn: 1 });
         const dateFormat = "yyyy-MM-dd";
-        const rows = [];
-        let days = [];
+        const rows: JSX.Element[] = [];
+        let days: JSX.Element[] = [];
       
         let day = startDate;
         while (day <= endDate) {
@@ -123,7 +125,7 @@ const HomePage = () =>{
         const startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
         const endDate = lastDayOfWeek(currentMonth, { weekStartsOn: 1 });
         const dateFormat = 'yyyy-MM-dd';
-        const promises = [];
+        const promises: Promise<any>[] = [];
 
         let day = startDate;
         while (day <= endDate) {
