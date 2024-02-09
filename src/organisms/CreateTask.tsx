@@ -70,20 +70,22 @@ const CreateTask = ({refresh}) => {
       };
 
       let handleHabitSubmit = async () => {
-      
+
+        const habit = {
+            name: habitName,
+            description: habitDescription,
+            dayOfWeek: habitDay,
+            startDate: habitDate,
+            endDate: habitEndDate
+        }
+        
         try {
           await fetch(url.rest + "create/habit/" + sessionStorage.getItem("current_user"), {
             method: "POST",
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              name: habitName,
-              description: habitDescription,
-              dayOfWeek: habitDay,
-              startDate: habitDate,
-              endDate: habitEndDate
-            }),
+            body: JSON.stringify(habit),
           })
             setHabitName("");
             setHabitDescription("");
