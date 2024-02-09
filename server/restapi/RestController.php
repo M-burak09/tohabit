@@ -107,13 +107,13 @@ switch($view){
 				echo json_encode(array('error' => 'Invalid task creation.'));
 			}
 		} 
-		/*
+		
 		else {
 			$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 			$taskRestHandler->createUserHabit(1, 'statictest', 'statictest', 6,'2024-02-09', '2024-02-23');
 			echo json_encode(array('error' => 'Invalid request method.'));
 		}
-		*/
+		
 		
 		break;
 

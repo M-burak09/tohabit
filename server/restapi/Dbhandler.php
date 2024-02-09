@@ -68,9 +68,22 @@ class Dbhandler{
         $result = $this->db->prepare($sql);
         $result->execute([$todoId, $startDate, $dayOfWeek]);
 
-        $sql= "INSERT INTO habit_instance (habit_id, date) VALUES (?, ?)";
-        $result = $this->db->prepare($sql);
-        $result->execute([$todoId, $endDate]);
+        // Add single instances between start and end date on specific day of the week
+        $newEndDate = $endDate;
+        $newStartDate = $startDate;
+        while(true){
+            if(strtotime($newStartDate) > strtotime($newEndDate)){
+                //var_dump(strtotime($startDate),$endDate, date("Y-m-d", strtotime($startDate. ' + 7 days')));
+                //var_dump(floor((strtotime($endDate) - strtotime($startDate)) / (60*60*24)));
+                break;
+            } else {
+                $sql= "INSERT INTO habit_instance (habit_id, date) VALUES (?, ?)";
+                $result = $this->db->prepare($sql);
+                $result->execute([$todoId, $newStartDate]);
+                var_dump($newStartDate);
+                $newStartDate = date("Y-m-d", strtotime($newStartDate. ' + 7 days'));
+            }
+        }
     }
 
     public function getUserLogin($username, $password){
