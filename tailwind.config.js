@@ -13,7 +13,7 @@ module.exports = {
         textSecondary: "#FFFFFF",
         textTertiary: "B3B1B3",
         btnPrimary: "#01172A",
-        btnSecondary: "#3CA4B8"
+        btnSecondary: "#00376F"
       }
     },
     
