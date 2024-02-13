@@ -1,5 +1,5 @@
 import React from "react";
-import Logout from "../molecules/Logout.tsx";
+import Sidebar from "../organisms/Sidebar.tsx";
 import CreateTask from "../organisms/CreateTask.tsx";
 import {useState, useEffect} from "react";
 import {url} from "../config.js";
@@ -45,18 +45,19 @@ const HomePage = () =>{
       const dateFormat = "MMM yyyy";
       
       return (
-        <div className="header row flex-middle">
-        <div className="col col-start">
-          <div className="icon" onClick={() => changeWeekHandle("prev")}>
-            previous week
+        <div className="flex justify-between bg-primary p-3 border-b w-full">
+        <div className="">
+          <div className="" onClick={() => changeWeekHandle("prev")}>
+            <img src="previous.png" alt="Previous week" className="w-8 cursor-pointer mt-2"/>
           </div>
         </div>
-        <div className="col col-center">
-            <p>{format(currentMonth, dateFormat)}</p>
-            <p> Week {currentWeek}</p>
+        <div className="text-center">
+          <p className="text-xl font-bold"> Tasks of week {currentWeek}</p>
+          <p>{format(currentMonth, dateFormat)}</p>
+            
           </div>
-        <div className="col col-end" onClick={() => changeWeekHandle("next")}>
-          <div className="icon">next week</div>
+        <div className="" onClick={() => changeWeekHandle("next")}>
+        <img src="next.png" alt="Next week" className="w-8 cursor-pointer mt-2"/>
         </div>
       </div>
           
@@ -74,14 +75,14 @@ const HomePage = () =>{
       for (let i = 0; i < 7; i++) {
         const formattedDate = format(day, dateFormat);
         days.push(
-          <div className="col col-center" key={i}>
+          <div className="grow basis-0 text-center bg-primary border-b font-bold py-2 border-r" key={i}>
             <span> {format(addDays(startDate, i), weekDayFormat)} </span>
-            <span className="number">{formattedDate}</span>
+            <span>{formattedDate}</span>
           </div>
         );
         day = addDays(day, 1);
       }
-      return <div className="days row">{days}</div>;
+      return <div className="flex">{days}</div>;
     };
 
     // Shows rows of the days of the current week in which the tasks are displayed
@@ -99,10 +100,10 @@ const HomePage = () =>{
             .flat()
             .filter((task) => task.date === formattedDate)
             .map((task) => (
-              <div className="task" key={task.id}>
-                <input type="checkbox" />
+              <div className="flex bg-primary rounded p-2 my-2 mx-1" key={task.id}>
+                <input type="checkbox" className="mx-2"/>
                 <p>{task.title}</p>
-                <img src={task.image} alt={task.image} />
+                <img src={task.image} alt={task.image} className="w-5 h-5 my-auto ml-auto"/>
               </div>
             ));
       
@@ -115,9 +116,9 @@ const HomePage = () =>{
           day = addDays(day, 1);
         }
       
-        rows.push(<div className="row" key="dates">{days}</div>);
+        rows.push(<div className="flex" key="dates">{days}</div>);
       
-        return <div className="body">{rows}</div>;
+        return <div className="">{rows}</div>;
       };
 
     // Function that makes sure that the fetches are handled well with promises and saved in the tasksdata state
@@ -160,14 +161,15 @@ const HomePage = () =>{
     }  
 
     return(
-        <div>
-            <h1>Homepage</h1>
-            <Logout/>
-            <CreateTask refresh={fetchTasksData}/>
-            <div className="calendar">
-                {showHeader()}
-                {showWeekdayTitle()}
-                {showDateTitle()}
+        <div className="lg:flex w-full">
+            <Sidebar styles="" refresh={fetchTasksData}/>
+            <div className="lg:w-full bg-secondary overflow-y-auto h-screen">
+              
+              <div className="calendar">
+                  {showHeader()}
+                  {showWeekdayTitle()}
+                  {showDateTitle()}
+              </div>
             </div>
         </div>
     )

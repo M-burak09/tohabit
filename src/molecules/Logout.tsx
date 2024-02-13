@@ -10,7 +10,9 @@ const Logout = () => {
         navigate("/login");
     }
     return (
-        <Button onClick={handleLogout} styles="">Logout</Button>
+        <div className="p-2">
+            <Button onClick={handleLogout} styles="">Logout</Button>
+        </div>
     )
 }
 

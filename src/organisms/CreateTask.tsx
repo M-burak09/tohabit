@@ -101,7 +101,7 @@ const CreateTask = ({refresh}) => {
 
     return (
         <div>
-            <Button onClick={showCreateModal} styles="">Create Task</Button>
+            <Button onClick={showCreateModal} styles="rounded bg-btnPrimary text-textSecondary px-3 py-2 my-2  hover:bg-btnSecondary">Create Task +</Button>
 
             {createModalOpen && (
                 <div className="modal-overlay">
