@@ -45,7 +45,7 @@ const HomePage = () =>{
       const dateFormat = "MMM yyyy";
       
       return (
-        <div className="flex justify-between bg-primary p-3 border-b w-full">
+        <div className="flex justify-center gap-8 bg-primary p-3 border-b w-full">
         <div className="">
           <div className="" onClick={() => changeWeekHandle("prev")}>
             <img src="previous.png" alt="Previous week" className="w-8 cursor-pointer mt-2"/>

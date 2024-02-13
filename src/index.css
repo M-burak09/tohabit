@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .sidebar {
+    @apply lg:w-1/4 max-w-xs max-h-screen border-r;
+  }
+}
 
 /* All the functions below belong to the calendar styling which will be changed later */
 
