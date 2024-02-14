@@ -100,8 +100,8 @@ const HomePage = () =>{
             .flat()
             .filter((task) => task.date === formattedDate)
             .map((task) => (
-              <div className="flex bg-primary rounded p-2 my-2 mx-1" key={task.id}>
-                <input type="checkbox" className="mx-2"/>
+              <div className="flex bg-primary rounded p-2 my-2 mx-1" key={task.id} id={task.id}>
+                <input type="checkbox" className="mx-2" defaultChecked={task.completion === 2 ? true : false} onChange={() => checkTask(task.task_id, task.completion)} checked={task.checked}/>
                 <p className="lg:text-sm 2xl:text-base">{task.title.length > 11 ? task.title.slice(0, 10) + "..." : task.title}</p>
                 <img src={task.image} alt={task.image} className="w-4 h-4 my-auto ml-auto"/>
               </div>
@@ -119,6 +119,36 @@ const HomePage = () =>{
         rows.push(<div className="flex " key="dates">{days}</div>);
       
         return <div className="">{rows}</div>;
+      };
+
+      const checkTask = async (id, completion) => {
+        console.log(completion)
+        const newCompletion = completion === 1 ? 2 : 1;
+        console.log("Request Payload:", JSON.stringify({ completion: newCompletion }));
+        try {
+          const response = await fetch(
+            `${url.rest}task/completion/${sessionStorage.getItem("current_user")}/${id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                completion: newCompletion,
+              }),
+            }
+          );
+      
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Success:", data);
+            fetchTasksData(); // Fetch data after updating completion
+          } else {
+            console.error("Error:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
       };
 
     // Function that makes sure that the fetches are handled well with promises and saved in the tasksdata state

@@ -86,6 +86,12 @@ class Dbhandler{
         }
     }
 
+    public function putUserTaskCompletion($id, $taskId, $completion){
+        $sql = "UPDATE task SET completion = ? WHERE id = ? AND user_id = ?";
+        $result = $this->db->prepare($sql);
+        return $result->execute([$completion, $taskId, $id]);
+    }
+
     public function getUserLogin($username, $password){
         $sql = "SELECT * FROM person WHERE username = ? AND password = ?";
         try {

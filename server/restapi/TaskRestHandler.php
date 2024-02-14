@@ -58,6 +58,10 @@
         public function createUserHabit($id, $name, $description, $dayOfWeek, $startDate, $endDate){
             $this->handleAndEncode($this->db->createUserHabit($id, $name, $description, $dayOfWeek, $startDate, $endDate));
         }
+
+        public function putUserTaskCompletion($id, $taskId, $completion){
+            $this->handleAndEncode($this->db->putUserTaskCompletion($id, $taskId, $completion));
+        }
         
         public function getUserLogin($username, $password){
             $user = $this->db->getUserLogin($username, $password);

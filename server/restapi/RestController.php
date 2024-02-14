@@ -6,7 +6,7 @@ require_once("Dbconnect.php");
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Max-Age: 86400');
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
 header('Access-Control-Allow-Headers: token, Content-Type, Authorization, X-Requested-With');
 
 $view = "";
@@ -62,6 +62,26 @@ switch($view){
 	case "userhabitsdate":
 		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 		$taskRestHandler->getUserHabitsDate($_GET["id"], $_GET["date"]);
+		break;
+	
+	case "taskcompletion":
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $json_data = file_get_contents("php://input");
+            $data = json_decode($json_data, true);
+            $completion = isset($data['completion']) ? $data['completion'] : null;
+			if (!empty($completion)) {
+				error_log("Completion value front: " . print_r($completion, true));
+				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler->putUserTaskCompletion($_GET["id"], $_GET["taskId"], $completion);
+			} else {
+				error_log("Completion value back: " . print_r($completion, true));
+				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler->putUserTaskCompletion($_GET["id"], $_GET["taskId"], 2);
+				echo json_encode(array('error' => 'Invalid task creation.'));
+			}
+		}
+		
 		break;
 	
 	case "createtodo":
