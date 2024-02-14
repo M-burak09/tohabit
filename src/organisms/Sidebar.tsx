@@ -46,12 +46,12 @@ const Sidebar = ({refresh, styles, children}) => {
                 </ul>
             </div>
             <div id="sidebar-closed" className="hidden">
-                <img src="hamburger.png" alt="close" className="w-7 h-7 cursor-pointer m-6" onClick={toggleSidebar}/>  
+                <img src="hamburger.png" alt="close" className="w-6 h-7 cursor-pointer m-6" onClick={toggleSidebar}/>  
                 <hr></hr> 
                 <ul className="hidden lg:block">
-                    <AnchorList href="/"> <img src="planning.png" alt="Week planning" className="w-8 h-8 ml-1 my-2" /> </AnchorList>
-                    <AnchorList href="/edit"> <img src="edit.png" alt="Edit tasks" className="w-8 h-8 ml-2 my-2" /> </AnchorList>
-                    <AnchorList href="/statistics"> <img src="statistic.png" alt="Statistics" className="w-8 h-8 ml-1 my-2" /> </AnchorList>
+                    <AnchorList href="/"> <img src="planning.png" alt="Week planning" className="w-7 h-7 ml-1.5 my-2" /> </AnchorList>
+                    <AnchorList href="/edit"> <img src="edit.png" alt="Edit tasks" className="w-7 h-7 ml-2 my-2" /> </AnchorList>
+                    <AnchorList href="/statistics"> <img src="statistic.png" alt="Statistics" className="w-7 h-7 ml-1 my-2" /> </AnchorList>
                 </ul>
             </div>
         </div>

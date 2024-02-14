@@ -75,7 +75,7 @@ const HomePage = () =>{
       for (let i = 0; i < 7; i++) {
         const formattedDate = format(day, dateFormat);
         days.push(
-          <div className="grow basis-0 text-center bg-primary border-b font-bold py-2 border-r" key={i}>
+          <div className="lg:grow lg:basis-0 flex-shrink-0 text-center bg-primary border-b font-bold py-2 border-r w-3/4 sm:w-1/3 " key={i}>
             <span> {format(addDays(startDate, i), weekDayFormat)} </span>
             <span>{formattedDate}</span>
           </div>
@@ -102,13 +102,13 @@ const HomePage = () =>{
             .map((task) => (
               <div className="flex bg-primary rounded p-2 my-2 mx-1" key={task.id}>
                 <input type="checkbox" className="mx-2"/>
-                <p>{task.title}</p>
-                <img src={task.image} alt={task.image} className="w-5 h-5 my-auto ml-auto"/>
+                <p className="lg:text-sm 2xl:text-base">{task.title.length > 11 ? task.title.slice(0, 10) + "..." : task.title}</p>
+                <img src={task.image} alt={task.image} className="w-4 h-4 my-auto ml-auto"/>
               </div>
             ));
       
           days.push(
-            <div className="col " key={formattedDate}>
+            <div className="lg:grow lg:basis-0 flex-shrink-0 w-3/4 sm:w-1/3" key={formattedDate}>
               {dayTasks}
             </div>
           );
@@ -116,7 +116,7 @@ const HomePage = () =>{
           day = addDays(day, 1);
         }
       
-        rows.push(<div className="flex" key="dates">{days}</div>);
+        rows.push(<div className="flex " key="dates">{days}</div>);
       
         return <div className="">{rows}</div>;
       };
@@ -165,10 +165,12 @@ const HomePage = () =>{
             <Sidebar styles="" refresh={fetchTasksData}/>
             <div className="lg:w-full bg-secondary overflow-y-auto h-screen">
               
-              <div className="calendar">
+              <div>
                   {showHeader()}
-                  {showWeekdayTitle()}
-                  {showDateTitle()}
+                  <div className="overflow-x-auto"> 
+                    {showWeekdayTitle()}
+                    {showDateTitle()}
+                  </div>
               </div>
             </div>
         </div>
