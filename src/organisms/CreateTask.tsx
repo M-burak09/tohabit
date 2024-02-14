@@ -12,7 +12,7 @@ const CreateTask = ({refresh}) => {
     const [todoDate, setTodoDate] = useState("");
     const [habitName, setHabitName] = useState("");
     const [habitDescription, setHabitDescription] = useState("");
-    const [habitDay, setHabitDay] = useState("");
+    //const [habitDay, setHabitDay] = useState("");
     const [habitDate, setHabitDate] = useState("");
     const [habitEndDate, setHabitEndDate] = useState("");
     
@@ -74,7 +74,7 @@ const CreateTask = ({refresh}) => {
         const habit = {
             name: habitName,
             description: habitDescription,
-            dayOfWeek: habitDay,
+            //dayOfWeek: habitDay,
             startDate: habitDate,
             endDate: habitEndDate
         }
@@ -91,7 +91,7 @@ const CreateTask = ({refresh}) => {
             setHabitDescription("");
             setHabitDate("");
             setHabitEndDate("");
-            setHabitDay("");
+            //setHabitDay("");
             refresh();
             hideHabitModal();   
         } catch (err) {
@@ -103,88 +103,112 @@ const CreateTask = ({refresh}) => {
         <div>
             <Button onClick={showCreateModal} styles="rounded bg-btnPrimary text-textSecondary px-3 py-2 my-2  mx-4 hover:bg-btnSecondary">Create task +</Button>
             {createModalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <p>Create modal</p>
-                        <Button onClick={showTodoModal} styles="">Create todo (single task) </Button>
-                        <Button onClick={showHabitModal} styles="">Create habit (reoccuring task)</Button>
-                        <Button onClick={hideCreateModal} styles="">Close</Button>
+                <div className="bg-black/75 w-full h-screen fixed top-0 left-0">
+                    <div className="bg-primary fixed  h-auto w-full lg:w-1/4 sm:w-1/2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg p-4">
+                        <p className="text-center text-lg font-bold mb-4">Pick a task type</p>
+                        <Button onClick={showTodoModal} styles="rounded bg-btnPrimary w-full text-primary px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary">Create todo (single task) </Button>
+                        <Button onClick={showHabitModal} styles="rounded bg-btnPrimary w-full text-primary px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary">Create habit (reoccuring task)</Button>
+                        <Button onClick={hideCreateModal} styles="rounded bg-gray-300 w-full  px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary hover:text-primary">Cancel task</Button>
                     </div>
                 </div>
             )}
 
             {todoModalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <p> Todo modal</p>
-                        <Button styles="" onClick={hideTodoModal}>Close</Button>
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="text"
-                            value={todoName}
-                            placeholder="Task name"
-                            onChange={(e) => setTodoName(e.target.value)}
-                        />
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="text"
-                            value={todoDescription}
-                            placeholder="Task name"
-                            onChange={(e) => setTodoDescription(e.target.value)}
-                        />
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="date"
-                            value={todoDate}
-                            placeholder="Task name"
-                            onChange={(e) => setTodoDate(e.target.value)}
-                        />
-                        <Button onClick={handleTodoSubmit} styles="block w-2/3 m-auto rounded bg-tertiary px-3 py-2 my-2 text-sm font-medium">Create task</Button>
+                <div className="bg-black/75 w-full h-screen fixed top-0 left-0">
+                    <div className="bg-primary fixed  h-auto w-full xl:w-2/5 2xl:w-1/3 sm:w-2/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg p-4">
+                        <p className="text-center text-lg font-bold"> Create todo task</p>
+                        <div className="lg:flex mt-4">
+                            <label htmlFor="todoName" className="lg:px-3 lg:w-1/3 lg:mt-4">Title:</label>
+                            <input
+                                id="todoName"
+                                className="block w-full m-auto rounded border bg-transparent px-3 py-2 my-2"
+                                type="text"
+                                value={todoName}
+                                placeholder="ex. Reading"
+                                onChange={(e) => setTodoName(e.target.value)}
+                            />
+                        </div>
+                        <div className="lg:flex mt-4">
+                            <label htmlFor="todoDescription" className="lg:px-3 lg:w-1/3 lg:mt-4">Description:</label>
+                            <input
+                                id="todoDescription"
+                                className="block w-full m-auto rounded border bg-transparent px-3 py-2 my-2"
+                                type="text"
+                                value={todoDescription}
+                                placeholder="ex. Read 5 pages of a book"
+                                onChange={(e) => setTodoDescription(e.target.value)}
+                            />
+                        </div>
+                        <div className="lg:flex mt-4">
+                            <label htmlFor="todoDate" className="lg:px-3 lg:w-1/3 lg:mt-4">Date:</label>
+                            <input
+                                id="todoDate"
+                                className="block w-full m-auto rounded border bg-transparent px-3 py-2 my-2"
+                                type="date"
+                                value={todoDate}
+                                onChange={(e) => setTodoDate(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex gap-4 mt-4">
+                            <Button onClick={hideTodoModal} styles="rounded bg-gray-300 w-full  px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary hover:text-primary">Cancel task</Button>
+                            <Button onClick={handleTodoSubmit} styles="block w-full m-auto rounded bg-tertiary text-primary px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary">Create task</Button>
+                        </div>
                     </div>
                 </div>
             )}
 
             {habitModalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <p>Habit modal</p>
-                        <Button onClick={hideHabitModal} styles="">Close</Button>
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="text"
-                            value={habitName}
-                            placeholder="Task name"
-                            onChange={(e) => setHabitName(e.target.value)}
-                        />
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="text"
-                            value={habitDescription}
-                            placeholder="Task name"
-                            onChange={(e) => setHabitDescription(e.target.value)}
-                        />
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="number"
-                            value={habitDay}
-                            placeholder="Task name"
-                            onChange={(e) => setHabitDay(e.target.value)}
-                        />
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="date"
-                            value={habitDate}
-                            placeholder="Task name"
-                            onChange={(e) => setHabitDate(e.target.value)}
-                        />
-                        <input
-                            className="block w-2/3 m-auto rounded border-0 bg-transparent px-3 py-2 my-2"
-                            type="date"
-                            value={habitEndDate}
-                            placeholder="Task name"
-                            onChange={(e) => setHabitEndDate(e.target.value)}
-                        />
-                        <Button onClick={handleHabitSubmit} styles="block  w-2/3 m-auto rounded bg-tertiary px-3 py-2 my-2 text-sm font-medium">Create task</Button>
+                <div className="bg-black/75 w-full h-screen fixed top-0 left-0">
+                    <div className="bg-primary fixed  h-auto w-full xl:w-2/5 2xl:w-1/3 sm:w-2/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg p-4">
+                        <p className="text-center text-lg font-bold">Create habit task</p>
+                        <div className="lg:flex mt-4">
+                            <label htmlFor="habitName" className="lg:px-3 lg:w-1/3 lg:mt-4">Title:</label>
+                            <input
+                                id="habitName"
+                                className="block w-full m-auto rounded border bg-transparent px-3 py-2 my-2"
+                                type="text"
+                                value={habitName}
+                                placeholder="Task name"
+                                onChange={(e) => setHabitName(e.target.value)}
+                            />
+                        </div>
+                        <div className="lg:flex mt-4">
+                            <label htmlFor="habitDescription" className="lg:px-3 lg:w-1/3 lg:mt-4">Description :</label>
+                            <input
+                                id="habitDescription"
+                                className="block w-full m-auto rounded border bg-transparent px-3 py-2 my-2"
+                                type="text"
+                                value={habitDescription}
+                                placeholder="Task description"
+                                onChange={(e) => setHabitDescription(e.target.value)}
+                            />
+                        </div>
+                        <div className="lg:flex mt-4">
+                            <label htmlFor="startDate" className="lg:px-3 lg:w-1/3 lg:mt-4">Starting date:</label>
+                            <input
+                                id="startDate"
+                                className="block w-full m-auto rounded border bg-transparent px-3 py-2 my-2"
+                                type="date"
+                                value={habitDate}
+                                placeholder="Task start date"
+                                onChange={(e) => setHabitDate(e.target.value)}
+                            />
+                        </div>
+                        <div className="lg:flex mt-4">
+                            <label htmlFor="EndDate" className="lg:px-3 lg:w-1/3 lg:mt-4">End date:</label>
+                            <input
+                                id="endDate"
+                                className="block w-full m-auto rounded border bg-transparent px-3 py-2 my-2"
+                                type="date"
+                                value={habitEndDate}
+                                placeholder="Task end date"
+                                onChange={(e) => setHabitEndDate(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex gap-4 mt-4">
+                            <Button onClick={hideHabitModal} styles="rounded bg-gray-300 w-full px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary hover:text-primary">Cancel task</Button>
+                            <Button onClick={handleHabitSubmit} styles="block w-full m-auto rounded bg-tertiary text-primary px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary">Create task</Button>
+                        </div>
                     </div>
                 </div>
             )}

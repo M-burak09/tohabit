@@ -4,7 +4,7 @@ import CreateTask from "./CreateTask.tsx";
 import AnchorList from "../atoms/AnchorList.tsx";
 import { useState } from "react";
 
-const Sidebar = ({refresh, styles, children}) => {
+const Sidebar = ({refresh, styles}) => {
 
     const [toggle, setToggle] = useState(true);
 
@@ -12,9 +12,6 @@ const Sidebar = ({refresh, styles, children}) => {
         const sidebar = document.getElementById("sidebar");
         const sidebarOpen = document.getElementById("sidebar-open");
         const sidebarClosed = document.getElementById("sidebar-closed");
-        //toggle === false ? setToggle(true) : setToggle(false);
-        //toggle === true ? sidebarOpen.classList.add("hidden") : sidebarOpen.classList.remove("hidden");
-        //toggle === true ? sidebarClosed.classList.remove("hidden") : sidebarClosed.classList.add("hidden");
         if(toggle === true){
             setToggle(false);
             sidebarOpen.classList.add("hidden");
