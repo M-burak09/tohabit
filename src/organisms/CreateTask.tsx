@@ -47,7 +47,7 @@ const CreateTask = ({refresh}) => {
     let handleTodoSubmit = async () => {
         
         try {
-          await fetch(url.rest + "create/todo/" + sessionStorage.getItem("current_user"), {
+          const response = await fetch(url.rest + "create/todo/" + sessionStorage.getItem("current_user"), {
             method: "POST",
             headers: {
               'Content-Type': 'application/json',
@@ -58,6 +58,14 @@ const CreateTask = ({refresh}) => {
               date: todoDate
             }),
           });
+          const data = await response.text();
+          console.error("Error:", data);
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Success:", data);
+          } else {
+            console.error("Error:", response.statusText);
+          }
             setTodoName("");
             setTodoDescription("");
             setTodoDate("");
@@ -80,13 +88,21 @@ const CreateTask = ({refresh}) => {
         }
         
         try {
-          await fetch(url.rest + "create/habit/" + sessionStorage.getItem("current_user"), {
+          const response = await fetch(url.rest + "create/habit/" + sessionStorage.getItem("current_user"), {
             method: "POST",
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(habit),
-          })
+          });
+          const data = await response.text();
+          console.error("Error:", data);
+          if (response.ok) {
+            //const data = await response.json();
+            //console.log("Success:", data);
+          } else {
+            console.error("Error:", response.statusText);
+          }
             setHabitName("");
             setHabitDescription("");
             setHabitDate("");

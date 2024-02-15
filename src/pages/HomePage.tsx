@@ -95,13 +95,14 @@ const HomePage = () =>{
       
         let day = startDate;
         while (day <= endDate) {
+          console.log(tasksData)
           const formattedDate = format(day, dateFormat);
           const dayTasks = tasksData
             .flat()
             .filter((task) => task.date === formattedDate)
             .map((task) => (
               <div className="flex bg-primary rounded p-2 my-2 mx-1" key={task.id} id={task.id}>
-                <input type="checkbox" className="mx-2" defaultChecked={task.completion === 2 ? true : false} onChange={() => checkTask(task.task_id, task.completion)} checked={task.checked}/>
+                <input type="checkbox" className="mx-2" defaultChecked={task.completion === 1 ? true : false} onChange={() => checkTask(task.id, task.completion)} checked={task.checked}/>
                 <p className="lg:text-sm 2xl:text-base">{task.title.length > 11 ? task.title.slice(0, 10) + "..." : task.title}</p>
                 <img src={task.image} alt={task.image} className="w-4 h-4 my-auto ml-auto"/>
               </div>
@@ -122,12 +123,13 @@ const HomePage = () =>{
       };
 
       const checkTask = async (id, completion) => {
-        console.log(completion)
-        const newCompletion = completion === 1 ? 2 : 1;
-        console.log("Request Payload:", JSON.stringify({ completion: newCompletion }));
+        
+        const newCompletion = completion === 0 ? 1 : 0;
+        console.log(id, completion, newCompletion)
+        //console.log("Request Payload:", JSON.stringify({ completion: newCompletion }));
         try {
           const response = await fetch(
-            `${url.rest}task/completion/${sessionStorage.getItem("current_user")}/${id}`,
+            url.rest + "task/completion/" + sessionStorage.getItem("current_user") + "/" + id,
             {
               method: "PUT",
               headers: {
@@ -138,7 +140,7 @@ const HomePage = () =>{
               }),
             }
           );
-      
+            //console.log(response)
           if (response.ok) {
             const data = await response.json();
             console.log("Success:", data);
@@ -185,7 +187,7 @@ const HomePage = () =>{
         let res = await fetch(url.rest + "user/habits/" + sessionStorage.getItem("current_user") + "/" + date);
         if (res.status === 200) {
             const data = await res.json();
-            console.log(data)
+            //console.log(data)
             return data;
         }   
     }  

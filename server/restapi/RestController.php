@@ -65,19 +65,20 @@ switch($view){
 		break;
 	
 	case "taskcompletion":
-		
 		if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $json_data = file_get_contents("php://input");
             $data = json_decode($json_data, true);
             $completion = isset($data['completion']) ? $data['completion'] : null;
+			//error_log("d: ".$data['completion']);
+			//error_log("c: ".$completion);
 			if (!empty($completion)) {
-				error_log("Completion value front: " . print_r($completion, true));
+				//error_log("Completion value front: " . print_r($completion, true));
 				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 				$taskRestHandler->putUserTaskCompletion($_GET["id"], $_GET["taskId"], $completion);
 			} else {
-				error_log("Completion value back: " . print_r($completion, true));
+				//error_log("Completion value back: " . print_r($completion, true));
 				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
-				$taskRestHandler->putUserTaskCompletion($_GET["id"], $_GET["taskId"], 2);
+				$taskRestHandler->putUserTaskCompletion($_GET["id"], $_GET["taskId"], 0);
 				echo json_encode(array('error' => 'Invalid task creation.'));
 			}
 		}
@@ -120,7 +121,7 @@ switch($view){
 			$dayOfWeek = isset($data['dayOfWeek']) ? $data['dayOfWeek'] : null;
 			$startDate = isset($data['startDate']) ? $data['startDate'] : null;
 			$endDate = isset($data['endDate']) ? $data['endDate'] : null;
-			if (!empty($name) && !empty($dayOfWeek) && !empty($startDate)) {
+			if (!empty($name) && !empty($startDate)) {
 				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
 				$taskRestHandler->createUserHabit($_GET["id"], $name, $description, $dayOfWeek, $startDate, $endDate);
 			} else {

@@ -46,20 +46,20 @@ class Dbhandler{
     public function createUserTodo($id, $name, $description, $date){
         $todoId = time();
         // Add data to task table
-        $sql = "INSERT INTO task (id, user_id, title, description, completion) VALUES (?, ?, ?, ?, 0);";
+        $sql = "INSERT INTO task (id, user_id, title, description) VALUES (?, ?, ?, ?);";
         $result = $this->db->prepare($sql);
         $result->execute([$todoId, $id, $name, $description]);
         
         // Add data to todo table
-        $sql= "INSERT INTO todo (task_id, image, date) VALUES (?, 'todo.png', ?)";
+        $sql= "INSERT INTO todo (id, task_id, image, date, completion) VALUES (?, ?, 'todo.png', ?, 0)";
         $result = $this->db->prepare($sql);
-        $result->execute([$todoId, $date]);
+        $result->execute([$todoId, $todoId, $date]);
     }
 
     public function createUserHabit($id, $name, $description, $dayOfWeek, $startDate, $endDate){
         $todoId = time();
         // Add data to task table
-        $sql = "INSERT INTO task (id, user_id, title, description, completion) VALUES (?, ?, ?, ?, 0);";
+        $sql = "INSERT INTO task (id, user_id, title, description) VALUES (?, ?, ?, ?);";
         $result = $this->db->prepare($sql);
         $result->execute([$todoId, $id, $name, $description]);
         
@@ -77,7 +77,7 @@ class Dbhandler{
                 //var_dump(floor((strtotime($endDate) - strtotime($startDate)) / (60*60*24)));
                 break;
             } else {
-                $sql= "INSERT INTO habit_instance (habit_id, date) VALUES (?, ?)";
+                $sql= "INSERT INTO habit_instance (habit_id, date, completion) VALUES (?, ?, 0)";
                 $result = $this->db->prepare($sql);
                 $result->execute([$todoId, $newStartDate]);
                 var_dump($newStartDate);
@@ -87,9 +87,23 @@ class Dbhandler{
     }
 
     public function putUserTaskCompletion($id, $taskId, $completion){
-        $sql = "UPDATE task SET completion = ? WHERE id = ? AND user_id = ?";
+        // First check if the task is a todo or a habit by checking if todo query returns a value
+        $sqlTaskCheck = "SELECT * FROM todo WHERE task_id = ?";
+        $resultTaskCheck = $this->db->prepare($sqlTaskCheck);
+        $resultTaskCheck->execute([$taskId]);
+        $value = $resultTaskCheck->fetchColumn();
+        //error_log("column: ". is_int($value));
+        // If fetchcolumn returns a value aka an integer then it is a todo, otherwise it is a habit
+        if(is_int($value)){
+            $sql = "UPDATE todo JOIN task ON task.id = todo.task_id SET completion = ? WHERE todo.id = ? AND task.user_id = ?";
+        } else {
+            $sql = "UPDATE habit JOIN task ON task.id = habit.task_id JOIN habit_instance ON habit.task_id = habit_instance.habit_id SET completion = ? WHERE habit_instance.id = ? AND task.user_id = ?";
+
+        }
+
         $result = $this->db->prepare($sql);
         return $result->execute([$completion, $taskId, $id]);
+        
     }
 
     public function getUserLogin($username, $password){

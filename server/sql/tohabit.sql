@@ -10,7 +10,6 @@ CREATE TABLE Task(
     user_id INT NOT NULL,
     title VARCHAR(50),
     description TEXT,
-    completion TINYINT,
     label int(10)
 );
 
@@ -18,7 +17,8 @@ CREATE TABLE Todo(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     task_id INT NOT NULL,
     image VARCHAR(255),
-    date DATE
+    date DATE,
+    completion TINYINT(1)
 );
 
 CREATE TABLE Habit(
@@ -32,5 +32,6 @@ CREATE TABLE Habit(
 CREATE TABLE Habit_instance(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     habit_id int NOT NULL,
-    date DATE
+    date DATE,
+    completion TINYINT(1)
 );
