@@ -16,8 +16,6 @@ const CreateTask = ({refresh}) => {
     const [habitDate, setHabitDate] = useState("");
     const [habitEndDate, setHabitEndDate] = useState("");
     
-
-    
     const showCreateModal = () => {
         setCreateModalOpen(true);
     };

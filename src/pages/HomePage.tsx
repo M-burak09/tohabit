@@ -95,7 +95,7 @@ const HomePage = () =>{
       
         let day = startDate;
         while (day <= endDate) {
-          console.log(tasksData)
+          //console.log(tasksData)
           const formattedDate = format(day, dateFormat);
           const dayTasks = tasksData
             .flat()
@@ -125,8 +125,6 @@ const HomePage = () =>{
       const checkTask = async (id, completion) => {
         
         const newCompletion = completion === 0 ? 1 : 0;
-        console.log(id, completion, newCompletion)
-        //console.log("Request Payload:", JSON.stringify({ completion: newCompletion }));
         try {
           const response = await fetch(
             url.rest + "task/completion/" + sessionStorage.getItem("current_user") + "/" + id,
