@@ -4,6 +4,7 @@ import Button from "../atoms/Button.tsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { url } from "../config.js";
+import { useEffect } from "react";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,13 @@ function Login() {
   const [message, setMessage] = useState("");
   
   const navigate = useNavigate();
+
+  // useeffect needed to avoid navigate bug in which it stays at login sometimes
+  useEffect(() => {
+    if (sessionStorage.getItem("current_user")) {
+      navigate("/");
+    }
+  }, []);
 
   let handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,13 +37,10 @@ function Login() {
         const data = await res.json();
         if(data.success === true){
           console.log(data.user.id);
-          
           await sessionStorage.setItem("current_user", data.user.id);
-          console.log(sessionStorage.getItem("current_user"));
-          // Need to fix bug where it sometimes goes to home but sometimes stays at login
-          navigate("/");
           setUsername("");
           setPassword("");
+          navigate("/");
         } else {
           console.error('Login failed:', data);
           setMessage("Username or password doesn't exist, please try again!");
@@ -56,7 +61,7 @@ function Login() {
           <img src="/background.jpg" alt="Background" className="h-full w-full backdrop-blur-[2px]"></img>
           <div className="backdrop-blur-[2px] absolute left-1/2 top-0 -translate-x-1/2 w-full h-full">
           <div className="text-textSecondary rounded-lg py-8 w-2/3 m-auto lg:mt-24 2xl:mt-48">
-            <h1 className="text-3xl font-bold mx-4 mb-8">Welcome to ToHabit – Your Personal Hub for Positive Change!</h1>
+            <h1 className="text-3xl font-bold mx-4 mb-8">Welcome to ToHabit – Your Personal Environment for Positive Change!</h1>
             <p className="text-lg mx-4 mb-6">Unlock the door to a more productive lifestyle. Start building positive habits, achieve your goals, and transform your life journey with ToHabit. </p>
             <p className="text-lg mx-4">Join us on the path to a better you!</p>
           </div>
