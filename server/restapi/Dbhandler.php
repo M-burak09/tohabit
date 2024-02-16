@@ -73,8 +73,6 @@ class Dbhandler{
         $newStartDate = $startDate;
         while(true){
             if(strtotime($newStartDate) > strtotime($newEndDate)){
-                //var_dump(strtotime($startDate),$endDate, date("Y-m-d", strtotime($startDate. ' + 7 days')));
-                //var_dump(floor((strtotime($endDate) - strtotime($startDate)) / (60*60*24)));
                 break;
             } else {
                 $sql= "INSERT INTO habit_instance (habit_id, date, completion) VALUES (?, ?, 0)";
@@ -92,18 +90,14 @@ class Dbhandler{
         $resultTaskCheck = $this->db->prepare($sqlTaskCheck);
         $resultTaskCheck->execute([$taskId]);
         $value = $resultTaskCheck->fetchColumn();
-        //error_log("column: ". is_int($value));
         // If fetchcolumn returns a value aka an integer then it is a todo, otherwise it is a habit
         if(is_int($value)){
             $sql = "UPDATE todo JOIN task ON task.id = todo.task_id SET completion = ? WHERE todo.id = ? AND task.user_id = ?";
         } else {
             $sql = "UPDATE habit JOIN task ON task.id = habit.task_id JOIN habit_instance ON habit.task_id = habit_instance.habit_id SET completion = ? WHERE habit_instance.id = ? AND task.user_id = ?";
-
         }
-
         $result = $this->db->prepare($sql);
         return $result->execute([$completion, $taskId, $id]);
-        
     }
 
     public function getUserLogin($username, $password){

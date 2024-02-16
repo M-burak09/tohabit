@@ -9,21 +9,19 @@ header('Access-Control-Max-Age: 86400');
 header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
 header('Access-Control-Allow-Headers: token, Content-Type, Authorization, X-Requested-With');
 
+$db = Dbconnect::getInstance();
 $view = "";
 if(isset($_GET["view"])){
 	$view = $_GET["view"];
 }
-/*
-controls the RESTful services
-URL mapping
-*/
+
 switch($view){
 	case "tasks":
-		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler = new TaskRestHandler($db);
 		$taskRestHandler->getAllTasks();
 		break;
+
 	case "login":
-		// Ensure that the request method is POST
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			// Get raw JSON data from the request body
             $json_data = file_get_contents("php://input");
@@ -34,7 +32,7 @@ switch($view){
             $password = isset($data['password']) ? $data['password'] : null;
 			// Validate and process login
 			if (!empty($username) && !empty($password)) {
-				$restRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$restRestHandler = new TaskRestHandler($db);
 				$restRestHandler->getUserLogin($username, $password);
 			} else {
 				echo json_encode(array('error' => 'Invalid or missing username or password.'));
@@ -45,22 +43,22 @@ switch($view){
 		break;
 	
 	case "usertodos":
-		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler = new TaskRestHandler($db);
 		$taskRestHandler->getUserTodos($_GET["id"]);
 		break;
 	
 	case "userhabits":
-		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler = new TaskRestHandler($db);
 		$taskRestHandler->getUserHabits($_GET["id"]);
 		break;
 	
 	case "usertodosdate":
-		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler = new TaskRestHandler($db);
 		$taskRestHandler->getUserTodosDate($_GET["id"], $_GET["date"]);
 		break;
 
 	case "userhabitsdate":
-		$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+		$taskRestHandler = new TaskRestHandler($db);
 		$taskRestHandler->getUserHabitsDate($_GET["id"], $_GET["date"]);
 		break;
 	
@@ -69,15 +67,11 @@ switch($view){
             $json_data = file_get_contents("php://input");
             $data = json_decode($json_data, true);
             $completion = isset($data['completion']) ? $data['completion'] : null;
-			//error_log("d: ".$data['completion']);
-			//error_log("c: ".$completion);
 			if (!empty($completion)) {
-				//error_log("Completion value front: " . print_r($completion, true));
-				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler = new TaskRestHandler($db);
 				$taskRestHandler->putUserTaskCompletion($_GET["id"], $_GET["taskId"], $completion);
 			} else {
-				//error_log("Completion value back: " . print_r($completion, true));
-				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler = new TaskRestHandler($db);
 				$taskRestHandler->putUserTaskCompletion($_GET["id"], $_GET["taskId"], 0);
 				echo json_encode(array('error' => 'Invalid task creation.'));
 			}
@@ -86,7 +80,6 @@ switch($view){
 		break;
 	
 	case "createtodo":
-		
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $json_data = file_get_contents("php://input");
             $data = json_decode($json_data, true);
@@ -94,20 +87,14 @@ switch($view){
             $description = isset($data['description']) ? $data['description'] : null;
 			$date = isset($data['date']) ? $data['date'] : null;
 			if (!empty($name) && !empty($date)) {
-				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler = new TaskRestHandler($db);
 				$taskRestHandler->createUserTodo($_GET["id"], $name, $description, $date);
 			} else {
 				echo json_encode(array('error' => 'Invalid task creation.'));
 			}
-		} 
-		/*
-		else {
-			$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
-			$taskRestHandler->createUserTodo(1, 'statictest', 'statictest', '2024-02-09');
+		} else {
 			echo json_encode(array('error' => 'Invalid request method.'));
 		}
-		*/
-		
 		break;
 
 	case "createhabit":
@@ -122,16 +109,15 @@ switch($view){
 			$startDate = isset($data['startDate']) ? $data['startDate'] : null;
 			$endDate = isset($data['endDate']) ? $data['endDate'] : null;
 			if (!empty($name) && !empty($startDate)) {
-				$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
+				$taskRestHandler = new TaskRestHandler($db);
 				$taskRestHandler->createUserHabit($_GET["id"], $name, $description, $dayOfWeek, $startDate, $endDate);
 			} else {
 				echo json_encode(array('error' => 'Invalid task creation.'));
 			}
-		} 
-		
-		else {
-			$taskRestHandler = new TaskRestHandler(Dbconnect::getInstance());
-			$taskRestHandler->createUserHabit(1, 'statictest', 'statictest', 6,'2024-02-09', '2024-02-23');
+		} else {
+			//Comments can be removed after CORS bug is fixed
+			//$taskRestHandler = new TaskRestHandler($db);
+			//$taskRestHandler->createUserHabit(1, 'statictest', 'statictest', 6,'2024-02-09', '2024-02-23');
 			echo json_encode(array('error' => 'Invalid request method.'));
 		}
 		
