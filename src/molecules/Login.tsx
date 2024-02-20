@@ -58,7 +58,7 @@ function Login() {
   return (
       <div className="lg:flex w-full h-screen bg-secondary">
         <div className="hidden lg:block lg:h-screen lg:w-1/2 lg:relative">
-          <img src="/background.jpg" alt="Background" className="h-full w-full backdrop-blur-[2px]"></img>
+          <img src="background.jpg" alt="Background" className="h-full w-full backdrop-blur-[2px]"></img>
           <div className="backdrop-blur-[2px] absolute left-1/2 top-0 -translate-x-1/2 w-full h-full">
           <div className="text-textSecondary rounded-lg py-8 w-2/3 m-auto lg:mt-24 2xl:mt-48">
             <h1 className="text-3xl font-bold mx-4 mb-8">Welcome to ToHabit – Your Personal Environment for Positive Change!</h1>

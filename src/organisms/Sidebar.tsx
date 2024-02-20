@@ -37,18 +37,18 @@ const Sidebar = ({refresh, styles}) => {
                 <ul>
                     <CreateTask refresh={refresh}/>
                     <Logout/>
-                    <AnchorList href="/"> Week planning </AnchorList>
-                    <AnchorList href="/edit"> Edit tasks </AnchorList>
-                    <AnchorList href="/statistics"> Statistics </AnchorList>
+                    <AnchorList href="/educom/tohabit/build/"> Week planning </AnchorList>
+                    <AnchorList href="/educom/tohabit/build/edit"> Edit tasks </AnchorList>
+                    <AnchorList href="/educom/tohabit/build/statistics"> Statistics </AnchorList>
                 </ul>
             </div>
             <div id="sidebar-closed" className="hidden">
                 <img src="hamburger.png" alt="close" className="w-6 h-7 cursor-pointer m-6" onClick={toggleSidebar}/>  
                 <hr></hr> 
                 <ul className="hidden lg:block">
-                    <AnchorList href="/"> <img src="planning.png" alt="Week planning" className="w-7 h-7 ml-1.5 my-2" /> </AnchorList>
-                    <AnchorList href="/edit"> <img src="edit.png" alt="Edit tasks" className="w-7 h-7 ml-2 my-2" /> </AnchorList>
-                    <AnchorList href="/statistics"> <img src="statistic.png" alt="Statistics" className="w-7 h-7 ml-1 my-2" /> </AnchorList>
+                    <AnchorList href="/educom/tohabit/build/"> <img src="planning.png" alt="Week planning" className="w-7 h-7 ml-1.5 my-2" /> </AnchorList>
+                    <AnchorList href="/educom/tohabit/build/edit"> <img src="edit.png" alt="Edit tasks" className="w-7 h-7 ml-2 my-2" /> </AnchorList>
+                    <AnchorList href="/educom/tohabit/build/statistics"> <img src="statistic.png" alt="Statistics" className="w-7 h-7 ml-1 my-2" /> </AnchorList>
                 </ul>
             </div>
         </div>

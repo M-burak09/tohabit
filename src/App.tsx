@@ -7,7 +7,7 @@ import Login from "./pages/LoginPage.tsx";
 function App() {
 
   return(
-    <BrowserRouter>
+    <BrowserRouter basename="/educom/tohabit/build">
       <Routes>
         <Route path="/" element={sessionStorage.getItem("current_user") !== null ? (<Home />) : (<Navigate replace to={"/login"} />)} />
         <Route path="/login" element={<Login/>} />
