@@ -35,6 +35,14 @@
             $this->handleAndEncode($this->db->getAllTask());
         }
 
+        public function getUserTasks($id){
+            $this->handleAndEncode($this->db->getUserTasks($id));
+        }
+
+        public function editUserTask($id, $taskId, $name, $description){
+            $this->handleAndEncode($this->db->editUserTask($id, $taskId, $name, $description));
+        }
+
         public function getUserTodos($id){
             $this->handleAndEncode($this->db->getUserTodo($id));
         }

@@ -120,9 +120,29 @@ switch($view){
 			//$taskRestHandler->createUserHabit(1, 'statictest', 'statictest', 6,'2024-02-09', '2024-02-23');
 			echo json_encode(array('error' => 'Invalid request method.'));
 		}
-		
-		
 		break;
+
+	case "usertasks":
+		$taskRestHandler = new TaskRestHandler($db);
+		$taskRestHandler->getUserTasks($_GET["id"]);
+		break;
+	
+	case "editusertasks":
+		if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $json_data = file_get_contents("php://input");
+            $data = json_decode($json_data, true);
+			$taskId = isset($data['id']) ? $data['id'] : null;
+            $taskName = isset($data['name']) ? $data['name'] : null;
+			$taskDescription = isset($data['description']) ? $data['description'] : null;
+			if (!empty($taskId) && !empty($taskName) && !empty($taskDescription)) {
+				$taskRestHandler = new TaskRestHandler($db);
+				$taskRestHandler->editUserTask($_GET["id"], $taskId, $taskName, $taskDescription);
+			} else {
+				echo json_encode(array('error' => 'Invalid task creation.'));
+			}
+		}
+		break;
+
 
 	case "" :
 		//404 - not found;

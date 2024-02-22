@@ -15,6 +15,13 @@ class Dbhandler{
         return $result;
     }
 
+    public function getUserTasks($id){
+        $sql = "SELECT * FROM task WHERE user_id = ?";
+        $result = $this->db->prepare($sql);
+        $result->execute([$id]);
+        return $result->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function getUserTodo($id){
         $sql = "SELECT * FROM task JOIN todo ON task.id = todo.task_id WHERE task.user_id = ?";
         $result = $this->db->prepare($sql);
@@ -82,6 +89,12 @@ class Dbhandler{
                 $newStartDate = date("Y-m-d", strtotime($newStartDate. ' + 7 days'));
             }
         }
+    }
+
+    public function editUserTask($id, $taskId, $taskName, $taskDescription){
+        $sql = "UPDATE task SET title = ?, description = ? WHERE id = ? AND user_id = ?";
+        $result = $this->db->prepare($sql);
+        return $result->execute([$taskName, $taskDescription, $taskId, $id]);
     }
 
     public function putUserTaskCompletion($id, $taskId, $completion){
