@@ -101,8 +101,8 @@ const HomePage = () =>{
             .flat()
             .filter((task) => task.date === formattedDate)
             .map((task) => (
-              <div className="flex bg-primary rounded p-2 my-2 mx-1" key={task.id} id={task.id}>
-                <input type="checkbox" className="mx-2" defaultChecked={task.completion === 1 ? true : false} onChange={() => checkTask(task.id, task.completion)} checked={task.checked}/>
+              <div className={`flex rounded p-2 my-2 mx-1 ${task.completion === 1 ? 'bg-blue-100' : 'bg-primary'}`} key={task.id} id={task.id}>
+                <input type="checkbox" className="mx-2" defaultChecked={task.completion === 1 ? true : false} onChange={() => checkTask(task.id, task.completion, formattedDate)} checked={task.checked}/>
                 <p className="lg:text-sm 2xl:text-base">{task.title.length > 11 ? task.title.slice(0, 10) + "..." : task.title}</p>
                 <img src={task.image} alt={task.image} className="w-4 h-4 my-auto ml-auto"/>
               </div>
@@ -122,9 +122,23 @@ const HomePage = () =>{
         return <div className="">{rows}</div>;
       };
 
-      const checkTask = async (id, completion) => {
-        
+      const checkTask = async (id, completion, formattedDate) => {
+        const task = document.getElementById(id);
         const newCompletion = completion === 0 ? 1 : 0;
+        if(newCompletion === 1){
+          task.classList.add("bg-blue-100");
+          task.classList.remove("bg-primary");
+        } 
+        /*else if(formattedDate < format(new Date(), "yyyy-MM-dd")){
+          task.classList.remove("bg-primary");
+          task.classList.remove("bg-green-300");
+          task.classList.add("bg-red-300");
+        } */
+        else {
+          task.classList.remove("bg-blue-100");
+          task.classList.add("bg-primary");
+        }
+
         try {
           const response = await fetch(
             url.rest + "task/completion/" + sessionStorage.getItem("current_user") + "/" + id,
