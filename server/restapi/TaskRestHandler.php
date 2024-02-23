@@ -43,6 +43,10 @@
             $this->handleAndEncode($this->db->editUserTask($id, $taskId, $name, $description));
         }
 
+        public function deleteUserTask($id, $taskId){
+            $this->handleAndEncode($this->db->deleteUserTask($id, $taskId));
+        }
+
         public function getUserTodos($id){
             $this->handleAndEncode($this->db->getUserTodo($id));
         }

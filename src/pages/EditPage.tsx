@@ -13,6 +13,8 @@ const EditPage = ({refresh}) => {
   const [tasks, setTasks] = useState([]);
   const [taskModalOpen, setTaskModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [currentDelete, setCurrentDelete] = useState([]);
 
   useEffect(() => {
       handleUserTasks();
@@ -24,11 +26,42 @@ const EditPage = ({refresh}) => {
     setTaskId(data.id);
     setTaskName(data.title);
     setTaskDescription(data.description);
-};
+  };
 
-const hideTaskModal = () => {
-    setTaskModalOpen(false);
-};
+  const showDeleteModal = (data) => {
+    setDeleteModalOpen(true);
+    setCurrentDelete(data);
+  };
+
+  const hideTaskModal = () => {
+      setTaskModalOpen(false);
+  };
+
+  const hideDeleteModal = () => {
+    setDeleteModalOpen(false);
+  };
+
+  const handleTaskDelete = async () => {
+    console.log(currentDelete.id);
+    
+    try {
+      let res = await fetch(url.rest + "delete/task/" + sessionStorage.getItem("current_user") + "/" + currentDelete.id);
+      if (res.status === 200) {
+        const data = await res.json();
+        setCurrentDelete([]);
+        handleUserTasks();
+        hideDeleteModal();
+      } else {
+        const errorData = await res.json();
+        console.error('Failed to get data:', errorData);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    
+  }
+
+
 
   const handleUserTasks = async () => {
     try {
@@ -88,8 +121,9 @@ let handleTaskSubmit = async () => {
               {tasks.map((data) => {
                   return(
                       <div className="flex justify-between sm:w-1/2 max-w-3xl mx-2 sm:mx-auto bg-primary rounded p-2 my-2" key={data.id}>
-                          <p>{data.title}</p>
-                          <Button onClick={() => showTaskModal(data)} styles="block rounded bg-btnPrimary text-textSecondary px-3 py-0 hover:bg-btnSecondary">Edit</Button>
+                          <p className="flex-none">{data.title}</p>
+                          <Button onClick={() => showTaskModal(data)} styles="block ml-auto rounded bg-btnPrimary text-textSecondary px-3 py-0 hover:bg-btnSecondary">Edit</Button>
+                          <Button onClick={() => showDeleteModal(data)} styles="block ml-4 rounded bg-btnPrimary text-textSecondary px-3 py-0 hover:bg-btnSecondary">Remove</Button>
                       </div>
                   )
               })}
@@ -123,6 +157,19 @@ let handleTaskSubmit = async () => {
                         <div className="flex gap-4 mt-4">
                             <Button onClick={hideTaskModal} styles="rounded bg-gray-300 w-full  px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary hover:text-primary">Cancel task</Button>
                             <Button onClick={handleTaskSubmit} styles="block w-full m-auto rounded bg-tertiary text-primary px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary">Update task</Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {deleteModalOpen && (
+                <div className="bg-black/75 w-full h-screen fixed top-0 left-0">
+                    <div className="bg-primary fixed  h-auto w-full xl:w-2/5 2xl:w-1/3 sm:w-2/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg p-4">
+                        <p className="text-center text-lg font-bold"> Are you sure you want to delete this task?</p>
+                        
+                        <div className="flex gap-4 mt-4">
+                            <Button onClick={hideDeleteModal} styles="rounded bg-gray-300 w-full  px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary hover:text-primary">Cancel task</Button>
+                            <Button onClick={handleTaskDelete} styles="block w-full m-auto rounded bg-tertiary text-primary px-3 py-2 my-2 text-sm font-medium hover:bg-btnSecondary">Delete task</Button>
                         </div>
                     </div>
                 </div>

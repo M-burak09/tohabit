@@ -14,3 +14,4 @@ RewriteRule ^user/habits/([0-9]+)/([0-9]{4}-[0-9]{2}-[0-9]{2})/?$ RestController
 ReWriteRule ^create/todo/([0-9]+)/?$ RestController.php?view=createtodo&id=$1 [nc,qsa]
 ReWriteRule ^create/habit/([0-9]+)/?$ RestController.php?view=createhabit&id=$1 [nc,qsa]
 ReWriteRule ^task/completion/([0-9]+)/([0-9]+)/?$ RestController.php?view=taskcompletion&id=$1&taskId=$2 [nc,qsa]
+RewriteRule ^delete/task/([0-9]+)/([0-9]+)/?$ RestController.php?view=deletetask&id=$1&taskId=$2 [nc,qsa]

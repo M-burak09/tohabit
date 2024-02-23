@@ -97,6 +97,32 @@ class Dbhandler{
         return $result->execute([$taskName, $taskDescription, $taskId, $id]);
     }
 
+    public function deleteUserTask($id, $taskId){
+        
+
+        $sqlTaskCheck = "SELECT * FROM todo WHERE task_id = ?";
+        $resultTaskCheck = $this->db->prepare($sqlTaskCheck);
+        $resultTaskCheck->execute([$taskId]);
+        $value = $resultTaskCheck->fetchColumn();
+        // If fetchcolumn returns a value aka an integer then it is a todo, otherwise it is a habit
+        if(is_int($value)){
+            $sql = "DELETE FROM todo WHERE task_id = ?";
+            $result = $this->db->prepare($sql);
+            $result->execute([$taskId]);
+        } else {
+            $sql = "DELETE FROM habit_instance WHERE habit_id = ?";
+            $result = $this->db->prepare($sql);
+            $result->execute([$taskId]);
+    
+            $sql = "DELETE FROM habit WHERE task_id = ?";
+            $result = $this->db->prepare($sql);
+            $result->execute([$taskId]);
+        }
+        $sql = "DELETE FROM task WHERE id = ? AND user_id = ?";
+        $result = $this->db->prepare($sql);
+        return $result->execute([$taskId, $id]);
+    }
+
     public function putUserTaskCompletion($id, $taskId, $completion){
         // First check if the task is a todo or a habit by checking if todo query returns a value
         $sqlTaskCheck = "SELECT * FROM todo WHERE task_id = ?";

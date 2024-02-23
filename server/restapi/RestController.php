@@ -143,6 +143,11 @@ switch($view){
 		}
 		break;
 
+	case "deletetask":
+		$taskRestHandler = new TaskRestHandler($db);
+		$taskRestHandler->deleteUserTask($_GET["id"], $_GET["taskId"]);
+		break;
+
 
 	case "" :
 		//404 - not found;
